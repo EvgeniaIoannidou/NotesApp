@@ -1,0 +1,31 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="container">
+  <div class="jumbotron">
+    <h1><%= @note.title %></h1>
+    <span class="label label-primary"> Last update <%= @note.updated_at.strftime("%b %d, %Y") %></span>
+  </div>
+</div>
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <p>
+        <%= @note.content %>
+      </p>
+    </div>
+    <div class="panel-footer">By username</div>
+  </div>
+</div>
+
+<div>
+  <%= link_to "Edit this note", edit_note_path(@note) %> |
+  <%= link_to "Back to notes", notes_path %>
+
+  <%= button_to "Destroy this note", @note, method: :delete %>
+</div>
+
+<% if @note.image.present? %>
+  <div>
+    <%= image_tag @note.image.url %>
+  </div>
+<% end %>

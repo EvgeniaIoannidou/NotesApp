@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Notes</h1>
+    <h4><span class="label label-primary">Write whatever you want to remember :D </span></h4>
+  </div>
+</div>
+
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-center">Title</th>
+        <th class="text-center">Content</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @notes.each do |note| %>
+        <tr>
+          <td><%= note.title %></td>
+          <td><%= note.content %></td>
+          <td class="text-center">
+            <%= link_to "Show", note_path(note), class: 'label label-info'%>
+            <%= link_to "Edit", edit_note_path(note), class: 'label label-success'%>
+            <%= button_to "Delete", note, method: :delete, data: { confirm: "Are you sure?" }, class: 'label label-danger' %>
+        </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<p style="color: green"><%= notice %></p>
+
+<%= link_to "New note", new_note_path %>
