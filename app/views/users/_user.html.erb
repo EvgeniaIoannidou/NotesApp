@@ -1,0 +1,19 @@
+<div id="<%= dom_id user %>">
+  <p>
+    <strong>Name:</strong>
+    <%= user.name %>
+  </p>
+
+  <p>
+    <strong>Password:</strong>
+    <%= user.password %>
+  </p>
+
+  <% if current_user.admin? %>
+    <p>
+      <strong>Admin:</strong>
+      <%= user.admin? ? "Yes" : "No" %>
+    </p>
+  <% end %>
+</div>
+

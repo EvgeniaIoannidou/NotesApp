@@ -65,5 +65,6 @@ group :development do
 
   gem 'carrierwave'
   gem 'bootstrap'
+  gem 'responders'
 end
 

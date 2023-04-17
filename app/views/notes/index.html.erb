@@ -11,6 +11,7 @@
       <tr>
         <th class="text-center">Title</th>
         <th class="text-center">Content</th>
+        <th class="text-center">Owner</th>
         <th class="text-center">Actions</th>
       </tr>
     </thead>
@@ -19,11 +20,12 @@
         <tr>
           <td><%= note.title %></td>
           <td><%= note.content %></td>
+          <td><%= note.user.name %></td>
           <td class="text-center">
-            <%= link_to "Show", note_path(note), class: 'label label-info'%>
-            <%= link_to "Edit", edit_note_path(note), class: 'label label-success'%>
-            <%= button_to "Delete", note, method: :delete, data: { confirm: "Are you sure?" }, class: 'label label-danger' %>
-        </td>
+            <%= link_to "Show", note_path(note), class: 'btn btn-info' %>
+            <%= link_to "Edit", edit_note_path(note), class: 'btn btn-success' %>
+            <%= button_to "Delete", note, method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -32,4 +34,4 @@
 
 <p style="color: green"><%= notice %></p>
 
-<%= link_to "New note", new_note_path %>
+<%= link_to "New note", new_note_path, class: 'btn btn-primary' %>

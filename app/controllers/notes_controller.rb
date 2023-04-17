@@ -3,31 +3,45 @@ class NotesController < ApplicationController
 
   def index
     @notes = Note.all
+    @users = User.all
   end
 
   def show
   end
 
   def new
-    @note = Note.new
+    if !session[:user_id]
+      redirect_to notes_path, alert: "You have to log in to create a new note"
+    else
+      @note = Note.new
+    end
   end
+
 
   def edit
+    if @note.user != current_user
+      redirect_to notes_path, alert: "You cannot edit another user's note!"
+    end
   end
 
-  def create
-    @note = Note.new(note_params)
 
+
+
+
+  def create
+    @note = current_user.notes.build(note_params)
     respond_to do |format|
       if @note.save
-        format.html { redirect_to note_url(@note), notice: 'Note was successfully created.' }
-        format.json { render :show, status: :created, location: @note }
+        format.html { redirect_to notes_path, notice: "Note was successfully created." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append(:notes, partial: "notes/note", locals: { note: @note })
+        end
       else
         format.html { render :new }
-        format.json { render json: @note.errors, status: :unprocessable_entity }
       end
     end
   end
+
 
   def update
     respond_to do |format|
@@ -42,10 +56,14 @@ class NotesController < ApplicationController
   end
 
   def destroy
-    @note.destroy
-    respond_to do |format|
-      format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
-      format.json { head :no_content }
+    if @note.user_id != session[:user_id]
+      redirect_to notes_path, alert: "You cannot delete another user's note!"
+    else
+      @note.destroy
+      respond_to do |format|
+        format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -56,6 +74,8 @@ class NotesController < ApplicationController
   end
 
   def note_params
-    params.require(:note).permit(:title, :content, :image)
+    params.require(:note).permit(:title, :content, :image, :user_id)
   end
+
+
 end

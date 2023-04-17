@@ -1,0 +1,16 @@
+<h1>Session#new</h1>
+<p>Please enter your credentials</p>
+<%= form_tag("/login", method: "post") do %>
+  <% if flash[:alert] %>
+    <div class="alert alert-danger"><%= flash[:alert] %></div>
+  <% end %>
+  <div class="field">
+    <%= label_tag :username %>
+    <%= text_field_tag :username, params[:username] %>
+  </div>
+  <div class="field">
+    <%= label_tag :password %>
+    <%= password_field_tag :password, params[:password] %>
+  </div>
+  <div class="actions"><%= submit_tag "Log in" %></div>
+<% end %>
