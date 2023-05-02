@@ -3,6 +3,12 @@ class SessionController < ApplicationController
   end
 
   def create
+    if params[:user].blank?
+      flash.now.alert = "Username and password cannot be blank"
+      render :new
+      return
+    end
+
     @user = User.find_by(name: params[:user][:name])
 
     if !@user
@@ -19,6 +25,7 @@ class SessionController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to login_path, notice: "Logged out!"
+    redirect_to root_path, notice: "Logged out!"
   end
+
 end

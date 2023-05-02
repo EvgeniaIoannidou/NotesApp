@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Note Collections</h1>
+    <h4><span class="label label-primary">Create and manage your note collections</span></h4>
+  </div>
+</div>
+
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-center">Name</th>
+        <th class="text-center">Owner</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @note_collections.each do |note_collection| %>
+        <tr>
+          <td><%= note_collection.name %></td>
+          <td><%= note_collection.user.name %></td>
+          <td class="text-center">
+            <%= link_to "Show", note_collection_path(note_collection), class: 'btn btn-info' %>
+            <%= button_to "Delete", note_collection, method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<p style="color: green"><%= notice %></p>
+
+<%= link_to "New collection", new_note_collection_path, class: 'btn btn-primary' %>

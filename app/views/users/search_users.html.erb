@@ -1,0 +1,40 @@
+<h1>Search Users</h1>
+
+<%= form_tag search_users_path, method: :get do %>
+  <%= text_field_tag :query, params[:query], placeholder: "Search for users" %>
+  <%= submit_tag "Search", class: "btn btn-primary" %>
+<% end %>
+
+<% if @users.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td>
+            <% if current_user.friends.include?(user) %>
+              <%= link_to "Unfriend", unfriend_user_path(user), method: :delete, class: "btn btn-danger" %>
+            <% elsif current_user.requested_friends.include?(user) %>
+              <%= link_to "Friend request sent", "#", class: "btn btn-secondary", disabled: true %>
+            <% elsif current_user.pending_friends.include?(user) %>
+              <%= link_to "Accept friend request", accept_friend_request_user_path(user), method: :patch, class: "btn btn-success" %>
+              <%= link_to "Deny friend request", deny_friend_request_user_path(user), method: :patch, class: "btn btn-danger" %>
+            <% else %>
+              <%= button_to "Send friend request", send_friend_request_user_path(user), method: :post, class: "btn btn-primary" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No users found.</p>
+<% end %>
+
+<%= link_to "Back to user", @user %>

@@ -1,0 +1,2 @@
+module NoteCollectionsHelper
+end

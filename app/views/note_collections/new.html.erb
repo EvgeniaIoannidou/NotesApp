@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="page-header">
+    <h1>New Note Collection</h1>
+  </div>
+
+  <%= form_for(@note_collection) do |f| %>
+    <% if @note_collection.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@note_collection.errors.count, "error") %> prohibited this note collection from being saved:</h2>
+
+        <ul>
+        <% @note_collection.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+
+    <%= f.submit 'Create', class: 'btn btn-primary' %>
+  <% end %>
+</div>

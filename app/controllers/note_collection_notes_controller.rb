@@ -1,0 +1,2 @@
+class NoteCollectionNotesController < ApplicationController
+end

@@ -3,7 +3,11 @@ class UsersController < ApplicationController
   before_action :require_admin_or_owner, only: [:show]
 
   def index
-    @users = User.all
+    @users = if params[:search]
+               User.where('lower(name) LIKE ?', "%#{params[:search].downcase}%")
+             else
+               User.all
+             end
   end
 
   def show
@@ -44,6 +48,44 @@ class UsersController < ApplicationController
     else
       @user.destroy
       redirect_to users_url, notice: "User was successfully destroyed."
+    end
+  end
+
+  def search_users
+    @query = params[:query]
+    @user = User.where("name LIKE ?", "%#{@query}%")
+                .first
+    if @user
+      render :show
+    else
+      redirect_to root_path, alert: "User not found."
+    end
+  end
+
+
+  def create_friendship
+    @friend = User.find(params[:friend_id])
+    @friendship = Friendship.new(requester: current_user, requested: @friend)
+    if @friendship.save
+      redirect_to @friend, notice: "Friend request sent."
+    else
+      redirect_to @friend, alert: "Failed to send friend request."
+    end
+  end
+
+  def update_friendship
+    @friendship = Friendship.find(params[:id])
+    if params[:accept]
+      @friendship.accept
+      redirect_to current_user, notice: "Friend request accepted."
+    elsif params[:decline]
+      @friendship.decline
+      redirect_to current_user, notice: "Friend request declined."
+    elsif params[:revoke]
+      @friendship.revoke
+      redirect_to current_user, notice: "Friendship revoked."
+    else
+      redirect_to current_user, alert: "Invalid request."
     end
   end
 

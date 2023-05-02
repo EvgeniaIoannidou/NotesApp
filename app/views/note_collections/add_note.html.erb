@@ -1,0 +1,12 @@
+<h1>Select a note to add to collection</h1>
+
+<% if @notes.any? %>
+  <% @notes.each do |note| %>
+    <h3><%= note.title %></h3>
+    <%= form_with url: add_note_note_collection_path(@note_collection, note_id: note.id), method: :post do |f| %>
+      <%= f.submit 'Add to collection' %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>There are no notes available to add to this collection.</p>
+<% end %>

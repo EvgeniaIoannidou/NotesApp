@@ -13,7 +13,7 @@
         <%= @note.content %>
       </p>
     </div>
-    <div class="panel-footer">By username</div>
+    <div class="panel-footer"></div>
   </div>
 </div>
 
@@ -22,6 +22,19 @@
   <%= link_to "Back to notes", notes_path %>
 
   <%= button_to "Destroy this note", @note, method: :delete %>
+<%= button_to "Share note", { action: :share_note, id: @note.id }, class: "btn btn-primary", onclick: "copyUrlToClipboard()" %>
+
+<script>
+function copyUrlToClipboard() {
+  var dummy = document.createElement('input');
+  var text = window.location.href;
+  document.body.appendChild(dummy);
+  dummy.value = text;
+  dummy.select();
+  document.execCommand('copy');
+  document.body.removeChild(dummy);
+}
+</script>
 </div>
 
 <% if @note.image.present? %>
